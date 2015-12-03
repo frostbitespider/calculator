@@ -53,7 +53,56 @@
     }
     return (prioTable[a-40]-prioTable[b-40])>=0;
 }
--(NSNumber*) Calculate:(NSString*)src {
+-(int)numBuilder:(const char*) content :(int) pos :(unsigned long) length :(NSNumber**)result :(BOOL)  flag{
+//char c=content[pos];
+//accept 99.    9.9  .9     9.  -num
+//return end of number+1
+    short dotNum=0;
+    NSMutableString* numString=[[NSMutableString alloc]init];
+    //处理以点开头的数字
+    if(content[pos]=='.'){
+        [numString appendString:@"0."];
+        dotNum=1;pos++;
+    }
+    while (pos<length) {
+        if (content[pos]=='.') {
+            if(dotNum==1){
+                NSLog(@"dot number >1");
+                return -1;
+            }
+            dotNum++;
+            [numString appendString:@"."];
+        }
+        else if([self isNum: content[pos]]){
+            [numString appendString:[NSString stringWithFormat:@"%c",content[pos]]];
+        }
+        else if([self isExp: content[pos]]){//case of .+
+            [numString appendString:@"0"];
+            //[result initWithFloat:[numSting floatValue]];
+            break;
+        }
+        else{
+            NSLog(@"It cannot be here");
+            return -2;
+        }
+        //next isnot a number,generally return here
+        if ((pos+1)==length||![self isNum:content[pos+1]]) {
+            pos++;
+            break;
+        }
+        pos++;
+    }
+    if (!flag) {//为负
+        *result =[NSNumber numberWithFloat:-[numString floatValue]];
+    }
+    //NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    else{
+        *result =[NSNumber numberWithFloat:[numString floatValue]];
+    }
+    //[formatter numberFromString:(NSString*)numString];
+    return pos;
+}
+-(NSNumber*) Calculate:(NSString*)src :(NSError*)error {
     [self gensuffix:src];
     [mid visit];
     //[suffix visit];
@@ -71,7 +120,7 @@
             [cal pop];
             if(cal.count==0){
                 NSLog(@"ERROR WHEN CAL");
-                return [[NSNumber alloc]initWithInt:-888888];
+                return [NSNumber numberWithInt:-888888];
             }
             float b=[[cal top] floatValue];
             NSNumber* c=[[NSNumber alloc]init];
@@ -88,6 +137,11 @@
                     c=[NSNumber numberWithFloat:b*a];
                     break;
                 case '/':
+                    if (a==0) {
+                        //[error initWithCoder:[]=
+                        NSLog(@"除数为0，错误");
+                        return [NSNumber numberWithInt:-3];
+                    }
                     c=[NSNumber numberWithFloat:b/a];
                     break;
                 default:
@@ -97,7 +151,9 @@
         }
     }
     NSNumber* result=[cal top];
-    [cal pop];
+    [cal clear];
+    [mid clear];
+    NSLog(@"result is %@",result);
     return result;
 }
 -(void)gensuffix:(NSString*)src{
@@ -107,60 +163,23 @@
      40 41  42  43   44    45  46    47
      *这样使得它们与自己代表的ASCII码相对应
      */
-    NSNumber* num;
     //const char* content=[src cStringUsingEncoding:NSUnicodeStringEncoding];
     const char* content=[src cStringUsingEncoding:[NSString defaultCStringEncoding]];
     NSLog(@"content is %s",content);
-    short low=0;
-    short high=0;
-    short dotPos=0;
-    BOOL dotPre=YES;//dot pre has number
-    //accept 99.    9.9  .9
     for (int i=0; i<src.length;) {
         //<numberBuilder
-        if([self isNum :content[i] ]){
-            short dotNum=0;
-            low=i;high=i;
-            if(content[i]=='.'){
-                if (i==0) {
-                    dotPre=0;
-                }
-                else{
-                    if (![self isNum:content[i]]) {
-                        dotPre=0;
-                    }
-                }
-            }
-            dotNum=1;
-            while (i<src.length) {
-                if (content[i]=='.') {
-                    if(dotNum==1){
-                        NSLog(@"dot number >1");
-                        return;
-                    }
-                    if(dotNum==0){
-                        dotNum++;high++;dotPos=i;
-                    }
-                }
-                else if([self isNum: content[i]]){
-                    high++;
-                }
-                else if([self isExp:content[i]]){
-                    if (i==dotPos+1) {//9.+
-                        high--;
-                    }
-                    break;//dont add i
-                }
-                i++;
-            }
-            NSRange range=NSMakeRange(low, high-low);
-            NSString* temp=[src substringWithRange:range];
-            num=[NSNumber numberWithFloat:[temp floatValue]];
+        if([self isNum :content[i]]){
+            NSNumber* num=[[NSNumber alloc]init];
+            //结果为下次循环开始位置
+            i=[self numBuilder:content :i :src.length :&num :YES];
             //numberBuilder>
             [suffix addObject:num];
             [type addObject:[[NSNumber alloc]initWithBool:YES]];//num is YES
         }
         else if ([self isExp: content[i] ]){
+            if (i==src.length-1) {
+                break;
+            }
             if(content[i]=='('){
                 [mid push:[NSString stringWithFormat:@"%c",'(']];
             }
@@ -172,6 +191,15 @@
             }
            else{//其他合法符号
                char ch=content[i];
+               if (ch=='-'&&[self isNum:content[i+1] ]) {
+                   NSNumber* num=[[NSNumber alloc]init];
+                   //结果为下次循环开始位置
+                   i=[self numBuilder:content :i+1 :src.length :&num :NO];
+                   //numberBuilder>
+                   [suffix addObject:num];
+                   [type addObject:[[NSNumber alloc]initWithBool:YES]];//num is YES
+                   continue;
+               }
                if(mid.count>0){
                    NSString* ta=mid.top;
                    char top=[ta cStringUsingEncoding:((NSUnicodeStringEncoding))][0];

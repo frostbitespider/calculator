@@ -16,9 +16,10 @@
     int prioTable[8];
 }
 - (id)init;
--(NSNumber*) Calculate:(NSString*)src;
+-(NSNumber*) Calculate:(NSString*)src :(NSError*)error;
 -(void)gensuffix:(NSString*)src;
--(BOOL) compare_prio:(char)a  :(char)b;
+-(int)numBuilder:(const char*) content :(int) pos :(unsigned long) length :(NSNumber**)result :(BOOL)flag;
+-(BOOL)compare_prio:(char)a  :(char)b;
 -(void)popmid;
 -(BOOL)isNum:(char) c;
 -(BOOL)isExp:(char) c;

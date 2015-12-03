@@ -12,8 +12,8 @@
 @private short dotNum;
 @private NSArray* expTable;
 @private Cal* cal;
+@private BOOL hasResult;
 }
-@property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UITextView *IOText;
 @property (weak, nonatomic) IBOutlet UIButton *backspace;
 @property (weak, nonatomic) IBOutlet UIButton *add;

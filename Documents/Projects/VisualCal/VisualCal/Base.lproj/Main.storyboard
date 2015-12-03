@@ -151,18 +151,12 @@
                                     <action selector="NumberPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pe5-Xy-wO7"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="5Ka-qT-dN7">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ka-qT-dN7">
                                 <rect key="frame" x="0.0" y="60" width="320" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="numberPad"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vw4-dS-sb3">
-                                <rect key="frame" x="82" y="156" width="157" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVZ-Za-QVw">
                                 <rect key="frame" x="237" y="389" width="46" height="30"/>
                                 <state key="normal" title="-">
@@ -191,7 +185,6 @@
                         <outlet property="divide" destination="7hy-Lm-LAn" id="peP-AK-Iby"/>
                         <outlet property="dot" destination="4HO-Iy-nq5" id="rrO-rO-us4"/>
                         <outlet property="equal" destination="M1O-mZ-e0B" id="DvP-Bt-UGw"/>
-                        <outlet property="label1" destination="Vw4-dS-sb3" id="nCd-v1-RHt"/>
                         <outlet property="minus" destination="fVZ-Za-QVw" id="UJj-el-XLf"/>
                         <outlet property="multiply" destination="Bu2-km-KgQ" id="Zsb-z0-Dgc"/>
                         <outlet property="n0" destination="Xui-sc-sRI" id="mxJ-ji-sTw"/>

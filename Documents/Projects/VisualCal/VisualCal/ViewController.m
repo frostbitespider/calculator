@@ -14,6 +14,10 @@
 
 @implementation ViewController
 - (IBAction)NumberPressed:(id)sender {
+    if(hasResult){
+        hasResult=0;
+        [[self IOText]setText:nil];
+    }
     NSString* text=[self IOText].text;
     UIButton* btnNum=(UIButton*)sender;
     for(int i=0;i<10;i++){
@@ -43,7 +47,10 @@
         }
     }
     if (btnExp.tag==4) {
-        [cal Calculate:text];
+        NSError* error;
+        hasResult=YES;
+        [[self IOText]setText:[NSString stringWithFormat:@"%@",
+                               [cal Calculate:text :error]]];
     }
 
 }
@@ -61,6 +68,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    hasResult=NO;
     expTable=[[NSArray alloc]initWithObjects:@"+",@"-",@"*",@"/",@"=",nil];
     cal=[[Cal alloc]init];
     // Do any additional setup after loading the view, typically from a nib.

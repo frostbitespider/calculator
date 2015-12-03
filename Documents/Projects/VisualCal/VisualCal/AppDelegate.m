@@ -17,28 +17,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    NSString* bundlePath=[[NSBundle mainBundle]bundlePath];
-    NSLog(@"bundlePath is %@",bundlePath);
+//    NSString* bundlePath=[[NSBundle mainBundle]bundlePath];
+//    NSLog(@"bundlePath is %@",bundlePath);
 //    NSString* docuDir=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 //    NSLog(@"docuDir is %@",docuDir);
 //    NSString* libDir=[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)lastObject];
 //    NSLog(@"libDir is %@",libDir);
-    NSString* bundleResPath=[[NSBundle mainBundle]resourcePath];
-    NSLog(@"bundleResPath is %@",bundleResPath);
-    NSString* file=[NSString stringWithFormat:@"%@/fuck",bundleResPath];
-    NSError* fileError;
-    NSString* line1=[NSString stringWithContentsOfFile:file encoding:NSASCIIStringEncoding error:&fileError];
-    if(fileError.code==0)
-        NSLog(@"%@",line1);
-    else
-        NSLog(@"error(%ld): %@",fileError.code,fileError.description);
-    NSString* content=@"Love is hurt";
-    [content writeToFile:file atomically:YES encoding:NSStringEncodingConversionAllowLossy error:&fileError];
-    NSString* line2=[NSString stringWithContentsOfFile:file encoding:NSASCIIStringEncoding error:&fileError];
-    if(fileError.code==0)
-        NSLog(@"%@",line2);
-    else
-        NSLog(@"error(%ld): %@",fileError.code,fileError.description);
+//    NSString* bundleResPath=[[NSBundle mainBundle]resourcePath];
+//    NSLog(@"bundleResPath is %@",bundleResPath);
+//    NSString* file=[NSString stringWithFormat:@"%@/fuck",bundleResPath];
+//    NSError* fileError;
+//    NSString* line1=[NSString stringWithContentsOfFile:file encoding:NSASCIIStringEncoding error:&fileError];
+//    if(fileError.code==0)
+//        NSLog(@"%@",line1);
+//    else
+//        NSLog(@"error(%ld): %@",fileError.code,fileError.description);
+//    NSString* content=@"Love is hurt";
+//    [content writeToFile:file atomically:YES encoding:NSStringEncodingConversionAllowLossy error:&fileError];
+//    NSString* line2=[NSString stringWithContentsOfFile:file encoding:NSASCIIStringEncoding error:&fileError];
+//    if(fileError.code==0)
+//        NSLog(@"%@",line2);
+//    else
+//        NSLog(@"error(%ld): %@",fileError.code,fileError.description);
     return YES;
 }
 
